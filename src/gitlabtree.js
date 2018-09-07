@@ -68,7 +68,7 @@ var GitlabTree = (function($, win) {
     if (private_token) {
       private_token = private_token.replace(/\"/g, '');
     } else {
-      if (isFilesTab()) {
+      // if (isFilesTab()) {
         tryToGetTokenInGitlab9(function(result) {
           if (result && result != 401) {
             private_token = result;
@@ -78,7 +78,7 @@ var GitlabTree = (function($, win) {
             dtd.reject(false);
           }
         });
-      }
+      // }
     }
   }
 
@@ -485,6 +485,11 @@ var GitlabTree = (function($, win) {
                 $('.table-holder').hide()
               }
 
+              if ($('.project-home-panel').length > 0 && $('.project-stats').length > 0) {
+                $('.project-home-panel').hide()
+                $('.project-stats').hide()
+              }
+
               hideLoading();
               history.replaceState(null, null, href);
             }
@@ -542,17 +547,17 @@ var GitlabTree = (function($, win) {
   var createBtn = function() {
     if ($('.open-tree').length === 0) {
       var htmlTemplate = '<div class="open-tree fa fa-angle-right"></div>';
-      if (isFilesTab()) {
+      // if (isFilesTab()) {
         $('body').append(htmlTemplate);
-      }
+      // }
 
       $('.open-tree').on('click', function() {
         showGitlabTree();
       });
     } else {
-      if (isFilesTab()) {
+      // if (isFilesTab()) {
         $('.open-tree').show();
-      }
+      // }
     }
   }
 
@@ -642,6 +647,9 @@ var GitlabTree = (function($, win) {
             path_with_namespace = path_with_namespace.split('/tree')[0].substr(1);
           } else if (/\/blob/.test(path_with_namespace)) {
             path_with_namespace = path_with_namespace.split('/blob')[0].substr(1);
+          } else {
+            // http://gitlab.xx.com/space/project 这种情况
+            path_with_namespace = path_with_namespace.substr(1)
           }
         }
       }
@@ -711,7 +719,7 @@ var GitlabTree = (function($, win) {
   }
 
   var getApiProjects = function() {
-    if (isFilesTab()) {
+    // if (isFilesTab()) {
       $.get(apiProjects, {
           private_token: private_token
         })
@@ -738,7 +746,7 @@ var GitlabTree = (function($, win) {
               hackStyle();
             });
         });
-    }
+    // }
   }
 
   return {
