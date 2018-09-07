@@ -38,6 +38,10 @@
     padding-left: 10px;
 }
 
+.gitlab-tree div.head a:last-child{
+    padding-left: 0px;
+}
+
 .gitlab-tree div.head .loader{
     height: 16px;
     width: 16px;

@@ -343,7 +343,7 @@ var GitlabTree = (function($, win) {
                                 <header>\
                                     <div class="head">\
                                         <div class="info">\
-                                            <i class="fa fa-lock"></i><a href="/groups/mobile" target="_blank"></a> / <span></span>\
+                                            <i class="fa fa-lock"></i><a href="#" target="_blank"></a> / <a href="#"></a>\
                                         </div>\
                                         <i class="fa fa-code-fork"></i><span class="branch"></span>\
                                         <a class="gitlabtree_toggle toggle-btn icon-white icon-arraw-left toggle-btn-color">\
@@ -354,8 +354,12 @@ var GitlabTree = (function($, win) {
     htmlTemplate += '<nav></nav></div>';
     $('body').append(htmlTemplate);
 
-    $('.gitlab-tree div.info a').text(path_with_namespace.split('/')[0]);
-    $('.gitlab-tree div.info span').text(path_with_namespace.split('/')[1]);
+    $('.gitlab-tree div.info a').eq(0)
+      .attr('href', '/' + path_with_namespace.split('/')[0])
+      .text(path_with_namespace.split('/')[0]);
+    $('.gitlab-tree div.info a').eq(1)
+      .attr('href', '/' + path_with_namespace)
+      .text(path_with_namespace.split('/')[1]);
     $('.gitlab-tree span.branch').text(repository_ref);
   }
 
@@ -448,7 +452,12 @@ var GitlabTree = (function($, win) {
           showLoading();
           var arrSplitFile = filePath.split('/');
           var fileName = (arrSplitFile.length > 0) && arrSplitFile[arrSplitFile.length - 1] || '';
-          $('.file-holder .file-title-name').text(fileName);
+          if ($('.file-holder .file-title-name').length > 0) {
+            $('.file-holder .file-title-name').text(fileName);
+          } else if($('.file-holder .file-title a').length > 0) {
+            $('.file-holder .file-title a strong').text(fileName)
+            $('.file-holder .file-title a').attr('href', href)
+          }
           var query;
           if (fileName.toLowerCase().indexOf('.md') > -1 ||
               fileName.toLowerCase().indexOf('.png') > -1 ||
@@ -471,6 +480,11 @@ var GitlabTree = (function($, win) {
               }
               $(".blob-viewer").replaceWith(result.html);
               $(".blob-viewer .file-content").addClass('white');
+
+              if ($('.table-holder').length > 0) {
+                $('.table-holder').hide()
+              }
+
               hideLoading();
               history.replaceState(null, null, href);
             }
@@ -620,6 +634,18 @@ var GitlabTree = (function($, win) {
         }
       }
 
+      if (path_with_namespace === '#') {
+        path_with_namespace = $('.breadcrumbs-container ul li a').last().attr('href')
+        var firstChar = path_with_namespace && path_with_namespace.substring(0, 1);
+        if (firstChar && firstChar === '/') {
+          if (/\/tree/.test(path_with_namespace)) {
+            path_with_namespace = path_with_namespace.split('/tree')[0].substr(1);
+          } else if (/\/blob/.test(path_with_namespace)) {
+            path_with_namespace = path_with_namespace.split('/blob')[0].substr(1);
+          }
+        }
+      }
+
       if (!path_with_namespace) {
         quit();
         result = false;
@@ -637,7 +663,7 @@ var GitlabTree = (function($, win) {
   var hotkey = function() {
     $(document).keyup(function(e) {
       // 219 [
-      if (e.keyCode === 219) {
+      if (e.keyCode === 27) {
         toggleSideBar();
       }
     });

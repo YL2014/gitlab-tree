@@ -1,3 +1,17 @@
+#### update
+简单改造，适配公司内部的gitlable，方便自己使用，欢迎继续改造
+
+> 改造后的文件在`release/v10.0`，欢迎下载使用
+
+##### 改造点
+- 头部导航调整修复，可以跳转`namespace`和`project`
+- 非权限项目的`path_with_namespace`获取失败问题修复
+- 非权限项目首次进入时`file-title-name`获取失败问题修复，并添加当前文件跳转
+
+##### @TODO 待改造点
+- 进入项目则展示tree
+- 当前文件的commit信息没及时更新
+
 ## gitlab-tree  <img src="http://images2015.cnblogs.com/blog/282019/201511/282019-20151106105737086-1425638412.png" alt="gitlab tree logo" width="10%" height="10%"/>
 
 Chrome extension to display Gitlab code in tree format. Useful for developers who frequently read source in Gitlab and do not want to download or checkout too many repositories. The first gitlab assistant tool for code browsing.
@@ -11,10 +25,6 @@ Chrome extension to display Gitlab code in tree format. Useful for developers wh
 * hotkey support( hit <kbd>[</kbd> to toggle gitlab-tree sidebar )
 * support gitlab 9.x version( 8.x user use v1.5) :collision: :sparkles:
 * no page refresh when browsing code file
-
-### install
-
-Download and install Gitlab-Tree from [Chrome Web Store](https://chrome.google.com/webstore/detail/gitlab-tree/dllpphhnoanpcnlnipopibigdoeignbb)
 
 ### usage
 
