@@ -222,6 +222,9 @@ var GitlabTree = (function($, win) {
           });
           showGitlabTree();
         }
+        if ($('.project-stats ul').length > 0) {
+          $('.project-stats ul').css('textAlign', 'left')
+        }
       })
       .catch(function(err) {
         console.error(err);
